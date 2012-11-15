@@ -51,7 +51,7 @@ var Who = Who || {};
         url: W.config.opaSourceRoot + address,
         type: 'GET',
         success: function(data) {
-          self.property = data.property;
+          self.properties = data.properties || [data.property];
           if (origSuccess) { origSuccess.apply(this, arguments); }
         }
       }));
@@ -106,12 +106,29 @@ var Who = Who || {};
     
     parcel.syncOpaData({
       success: function() {
-        parcel.layer.setStyle(function(feature) {
-          return {color: 'blue'};
-        });
-        var popupContent = 
-          '<p>' + parcel.property.account_information.address + '</p>' +
-          '<p>Owner: ' + parcel.property.account_information.owners[0] + '</p>';
+        var popupContent = '';
+        
+        if (parcel.properties && parcel.properties[0]) {
+          parcel.layer.setStyle(function(feature) {
+            return {color: (parcel.properties.length === 1 ? 'green' : 'blue')};
+          });
+          $.each(parcel.properties, function(i, property) {
+//            if (!property)
+//              debugger;
+            var info = property.account_information || property;
+            popupContent +=
+              '<p><b>' + info.address + '</b></p>' +
+              '<p>Owner: ' + info.owners[0] + '</p>';
+          });
+        }
+        
+        else {
+          parcel.layer.setStyle(function(feature) {
+            return {color: 'red'};
+          });
+          popupContent = '<p>No properties on the parcel.</p>';
+        }
+        
         parcel.layer.bindPopup(popupContent);
       }
     });
@@ -125,7 +142,7 @@ var Who = Who || {};
     W.parcels = new W.ParcelCollection();
     W.map.on('moveend', function() { W.updateParcels(); });
     W.parcels.on('add', function(parcel) { W.addParcel(parcel); });
-    W.parcels.fetch();
+    W.updateParcels();
     
   });
 
