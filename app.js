@@ -144,6 +144,11 @@ var Who = Who || {};
     W.parcels.on('add', function(parcel) { W.addParcel(parcel); });
     W.updateParcels();
     
+    $('#locate-me-btn').click(function(evt) {
+      evt.preventDefault();
+      
+    });
+    
   });
 
 })(Who);
