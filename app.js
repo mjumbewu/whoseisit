@@ -6,7 +6,7 @@ var Who = Who || {};
     W.map = L.map('map');
     var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
       cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
-      cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+      cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, minZoom: 17, attribution: cloudmadeAttribution});
     W.map.setView([39.948174225938324,-75.20690917968749], 18).addLayer(cloudmade);
   }
   
