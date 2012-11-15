@@ -17,8 +17,8 @@ var Who = Who || {};
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
 
-        W.setMarkerLocation(latitude, longitude);
-        W.map.panTo(latitude, longitude);
+        W.setMarkerLocation([latitude, longitude]);
+        W.map.panTo([latitude, longitude]);
       }, 
       // fail
       function() {
