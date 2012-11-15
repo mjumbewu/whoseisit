@@ -126,7 +126,7 @@ var Who = Who || {};
           parcel.layer.setStyle(function(feature) {
             return {color: 'red'};
           });
-          popupContent = '<p>No properties on the parcel.</p>';
+          popupContent = '<p>No property information found for this parcel.</p>';
         }
         
         parcel.layer.bindPopup(popupContent);
