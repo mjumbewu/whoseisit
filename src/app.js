@@ -133,6 +133,10 @@ var Who = Who || {};
       }
     });
   };
+  
+  W.showAboutMessage = function() {
+    $('#about-modal').modal('show');
+  };
 
   $(function() {
   
@@ -146,8 +150,15 @@ var Who = Who || {};
     
     $('#locate-me-btn').click(function(evt) {
       evt.preventDefault();
-      
+      W.initLocation();
     });
+    
+    $('#about-btn').click(function(evt) {
+      evt.preventDefault();
+      W.showAboutMessage();
+    });
+    
+    W.showAboutMessage();
     
   });
 
