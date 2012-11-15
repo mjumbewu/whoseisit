@@ -115,10 +115,20 @@ var Who = Who || {};
           $.each(parcel.properties, function(i, property) {
 //            if (!property)
 //              debugger;
-            var info = property.account_information || property;
+            var info = property.account_information || property,
+                latest_year,
+                value;
+            
+            if (property.valuation_details) {
+              latest_year = Math.max.apply(null, _.keys(property.valuation_details));
+              value = property.valuation_details[latest_year].market_value;
+            } else {
+              value = property.proposed_value;
+            }
             popupContent +=
               '<p><b>' + info.address + '</b></p>' +
-              '<p>Owner: ' + info.owners[0] + '</p>';
+              '<p><i>Owner(s):</i><br>' + info.owners.join('<br>') + '</p>' +
+              '<p><i>Market value:</i> ' + value + '</p>';
           });
         }
         
