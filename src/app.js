@@ -11,23 +11,23 @@ var Who = Who || {};
   }
   
   W.initLocation = function() {
-//    navigator.geolocation.getCurrentPosition(
-//      // success
-//      function(position) {
-//        latitude = position.coords.latitude;
-//        longitude = position.coords.longitude;
+    navigator.geolocation.getCurrentPosition(
+      // success
+      function(position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
 
-//        W.setMarkerLocation(latitude, longitude);
-//        W.map.panTo(latitude, longitude);
-//      }, 
-//      // fail
-//      function() {
-//        alert('Oops, could not find you.');
-//      }
-//    );
+        W.setMarkerLocation(latitude, longitude);
+        W.map.panTo(latitude, longitude);
+      }, 
+      // fail
+      function() {
+        alert('Oops, could not find you.');
+      }
+    );
 
-    W.setMarkerLocation([39.948174225938324,-75.20690917968749]);
-    W.map.panTo([39.948174225938324,-75.20690917968749]);
+//    W.setMarkerLocation([39.948174225938324,-75.20690917968749]);
+//    W.map.panTo([39.948174225938324,-75.20690917968749]);
     
   }
 
@@ -48,7 +48,7 @@ var Who = Who || {};
           origSuccess = options.success;
           
       $.ajax(_.extend(options, {
-        url: 'http://api.phillyaddress.com/address.json/' + address,
+        url: W.config.opaSourceRoot + address,
         type: 'GET',
         success: function(data) {
           self.property = data.property;
@@ -60,7 +60,7 @@ var Who = Who || {};
   
   W.ParcelCollection = Backbone.Collection.extend({
     model: W.ParcelModel,
-    url: 'http://localhost:8000/parcels/',
+    url: W.config.parcelSourceRoot,
     
     sync: function(method, models, options) {
       options = options || {};
@@ -109,7 +109,10 @@ var Who = Who || {};
         parcel.layer.setStyle(function(feature) {
           return {color: 'blue'};
         });
-        parcel.layer.bindPopup(parcel.property.account_information.address);
+        var popupContent = 
+          '<p>' + parcel.property.account_information.address + '</p>' +
+          '<p>Owner: ' + parcel.property.account_information.owners[0] + '</p>';
+        parcel.layer.bindPopup(popupContent);
       }
     });
   };
